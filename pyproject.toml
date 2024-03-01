@@ -1,0 +1,64 @@
+[tool.poetry]
+name = "home-periscope"
+version = "0.0.1"
+description = ""
+authors = ["Marcin Goncerzewicz <marcingoncerzewicz@gmail.com>"]
+readme = "README.md"
+packages = [
+    {include = "main", from = "src"}
+]
+
+[tool.poetry.dependencies]
+python = "~3.9"
+
+attrs = "23.2.0"
+fastapi = { version = "0.95.0", extras = ["all"] }
+fastapi-injector = "0.5.4"
+fastapi-utils = "0.2.1"
+uvicorn = { version = "0.15.0", extras = ["standard"] }
+loguru = "0.7.2"
+pyyaml = "6.0.1"
+pyplumio = "0.5.15"
+pytz = "2024.1"
+python-dateutil = "2.8.2"
+injector = "0.21.0"
+
+[tool.poetry.group.dev.dependencies]
+autoflake = "2.2.1"
+pytest = "7.4.4"
+black = "24.2.0"
+isort = "5.11.2"
+mypy = "1.8.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.autoflake]
+check = true
+remove_all_unused_imports = true
+
+[tool.isort]
+line_length = 120
+multi_line_output = 3
+force_alphabetical_sort_within_sections = true
+profile = "black"
+
+[tool.black]
+line-length = 120
+target-version = ['py310']
+skip-string-normalization = true
+
+[tool.mypy]
+python_version = "3.9"
+ignore_missing_imports = true
+scripts_are_modules = true
+explicit_package_bases = true
+pretty = true
+#allow_subclassing_any = true
+strict = true
+
+[tool.pytest.ini_options]
+pythonpath = [
+    "src"
+]

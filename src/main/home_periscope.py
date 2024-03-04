@@ -17,7 +17,7 @@ class HomePeriscope:
     def __init__(self):
         a_injector = Injector([configure])
         self.app = FastAPI()
-        self.app.mount("/static", StaticFiles(directory="static"), name="static")
+        self.app.mount("/static", StaticFiles(directory="static/static"), name="static")
         self.app.include_router(dashboard_router)
         self.app.state.injector = a_injector
         attach_injector(self.app, a_injector)

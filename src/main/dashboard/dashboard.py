@@ -16,7 +16,6 @@ class DashboardController:
     @dashboard_router.get("/")
     async def main(self, request: Request):
         result = "Enter your name"
-        breakpoint()
         return templates.TemplateResponse(
             "index.html", context={"request": request, "result": result}
         )

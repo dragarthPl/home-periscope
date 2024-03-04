@@ -26,6 +26,20 @@ Zakładana jest rozudowa projektu o automatyzacje innych urządzeń w domu (np. 
 - [ ] Wyświetlanie danych na na stronie internetowej
 - [ ] Automatyczne sterowanie piecem
 
+## Komunikacja z sterownikiem pieca
+
+Ze sterownikiem pieca komunikujemy się za pomocą protokołu RS485. W tym celu wykorzystujemy konwerter USB - RS485, podłączony do Raspberry Pi Zero.
+Zakładamy dwa warianty komunikacji z aplikacją: 
+- [ ] Komunikacja z aplikacją za pomocą USB, w tym wariancie kod aplikacji znajduje się na Raspberry Pi Zero
+- [ ] Komunikacja z aplikacją za pomocą sieci, w tym wariancie kod aplikacji znajduje się na inny serwerze
+
+Dodatko zakładamy warian uruchomienia aplikaji z "zaślepką", czyli bez komunikacji z piecem.
+
+- [ ] Wariant z "zaślepką"
+
+ 
+
+
 
 ## Materiały/Inspiracje:
 

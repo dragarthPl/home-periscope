@@ -13,6 +13,13 @@
   }
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo-periscope {
+    height: 300px;
+    width: 300px;
+  }
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

@@ -37,10 +37,6 @@ Dodatko zakładamy warian uruchomienia aplikaji z "zaślepką", czyli bez komuni
 
 - [ ] Wariant z "zaślepką"
 
- 
-
-
-
 ## Materiały/Inspiracje:
 
  - [Wątek na elektordzie] (https://www.elektroda.pl/rtvforum/topic3346727.html)
@@ -58,3 +54,6 @@ Dodatko zakładamy warian uruchomienia aplikaji z "zaślepką", czyli bez komuni
  - Raspberry Pi Zero
  - Konwerter USB - RS485 (np. https://www.waveshare.com/usb-to-rs485-b.htm)
 
+## Instalacja python na raspbery pi w innej wersji niż standardowa 
+
+ - https://www.enablegeek.com/tutorial/install-python-on-a-raspberry-pi-step-by-step-guide/

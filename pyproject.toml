@@ -9,19 +9,20 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "~3.9"
+python = "~3.11"
 
 attrs = "23.2.0"
 fastapi = { version = "0.95.0", extras = ["all"] }
 fastapi-injector = "0.5.4"
 fastapi-utils = "0.2.1"
-uvicorn = { version = "0.15.0", extras = ["standard"] }
+uvicorn = { version = "0.27.1", extras = ["standard"] }
 loguru = "0.7.2"
 pyyaml = "6.0.1"
 pyplumio = "0.5.15"
 pytz = "2024.1"
 python-dateutil = "2.8.2"
 injector = "0.21.0"
+aiounittest = "^1.4.2"
 
 [tool.poetry.group.dev.dependencies]
 autoflake = "2.2.1"
@@ -60,5 +61,6 @@ strict = true
 
 [tool.pytest.ini_options]
 pythonpath = [
+    ".",
     "src"
 ]

@@ -1,10 +1,12 @@
+from pathlib import Path
+
 import uvicorn
 from fastapi_injector import attach_injector
 from injector import Injector
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
-from dashboard.dashboard_controller import dashboard_router
+from main.dashboard.dashboard_controller import dashboard_router
 from main.temperature.temperature_controller import temperature_router
 
 
@@ -18,11 +20,14 @@ class HomePeriscope:
     def __init__(self):
         a_injector = Injector([configure])
         self.app = FastAPI()
-        self.app.mount("/static", StaticFiles(directory="static/static"), name="static")
+        self.app.mount("/static", StaticFiles(directory=self.find_static_folder()), name="static")
         self.app.include_router(dashboard_router)
         self.app.include_router(temperature_router)
         self.app.state.injector = a_injector
         attach_injector(self.app, a_injector)
+
+    def find_static_folder(self):
+        return Path(__file__).parent.parent.parent.joinpath("static", "static")
 
     @classmethod
     def create_app(cls) -> FastAPI:

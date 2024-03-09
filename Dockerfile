@@ -1,18 +1,18 @@
-FROM python:3.9-bookworm
+FROM python:3.11-bookworm
 
 RUN apt update && apt upgrade -y
 
 RUN curl -fsSL https://deb.nodesource.com/setup_21.x | bash - && apt install -y nodejs
 RUN corepack enable pnpm
 
-RUN python3.9 -m ensurepip
-RUN python3.9 -m pip install --upgrade pip
+RUN python3.11 -m ensurepip
+RUN python3.11 -m pip install --upgrade pip
 
 # Building python
 ENV POETRY_HOME="/etc/poetry"
 ENV PATH="${PATH}:${POETRY_HOME}/bin"
 ENV POETRY_VIRTUALENVS_IN_PROJECT=1
-RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=/etc/poetry python3.9 -
+RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=/etc/poetry python3.11 -
 COPY poetry.lock .
 COPY pyproject.toml .
 COPY frontend/package.json /app/frontend/

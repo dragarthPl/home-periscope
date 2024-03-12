@@ -1,2 +1,5 @@
 stream_ip: 192.168.1.236
 stream_port: 9801
+
+default_maximum_temperature: 80
+default_minimum_temperature: 15

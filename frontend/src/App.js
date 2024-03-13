@@ -1,11 +1,20 @@
 import homePeriscopeLogo from './home-periscope.png';
 import './App.css';
-import { red } from '@mui/material/colors';
+import {blue, orange, red} from '@mui/material/colors';
+import React, { useState, useEffect } from 'react';
+
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import MenuIcon from '@mui/icons-material/Menu';
+import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Slider from '@mui/material/Slider';
 import Typography from '@mui/material/Typography';
 import DeviceThermostatIcon from "@mui/icons-material/DeviceThermostat";
+import Container from "@mui/material/Container";
+import Paper from "@mui/material/Paper";
 
 const marks = [
   {
@@ -47,38 +56,144 @@ const marks = [
 ];
 
 function App() {
+  const [time, setTime] = useState(new Date());
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    // Update the time every second
+    const intervalId = setInterval(() => {
+      setTime(new Date());
+    }, 1000);
+
+    const fetchData = async () => {
+      const result = {
+        heatingTemperature: null,
+        waterHeaterTemperature: null,
+        mixerTemperature: null
+      };
+      try {
+        const responseHeatingTemperature = await fetch('/api/heating_temperature');
+        if (!responseHeatingTemperature.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const resultHeatingTemperature = await responseHeatingTemperature.json();
+        result.heatingTemperature = resultHeatingTemperature;
+
+        const responseWaterHeaterTemperature = await fetch('/api/water_heater_temperature');
+        if (!responseWaterHeaterTemperature.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const resultWaterHeaterTemperature = await responseWaterHeaterTemperature.json();
+        result.waterHeaterTemperature = resultWaterHeaterTemperature;
+
+        const responseMixerTemperature = await fetch('/api/mixer_temperature');
+        if (!responseMixerTemperature.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const resultMixerTemperature = await responseMixerTemperature.json();
+        result.mixerTemperature = resultMixerTemperature;
+
+        setData(result);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+
+    // Clear the interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
+
   return (
-    <div className="App">
-      <Box sx={{ flexDirection: 'row' }}>
-        <img src={homePeriscopeLogo} className="App-logo-periscope" alt="logo"/>
-        <Typography id="input-slider" gutterBottom>
+      <div className="App">
+        <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        <Toolbar>
+          {/*<IconButton*/}
+          {/*  size="large"*/}
+          {/*  edge="start"*/}
+          {/*  color="inherit"*/}
+          {/*  aria-label="menu"*/}
+          {/*  sx={{ mr: 2 }}*/}
+          {/*>*/}
+          {/*  <MenuIcon />*/}
+          {/*</IconButton>*/}
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Home periscope
-        </Typography>
-      </Box>
-      <Box sx={{ width: 450 }}>
-        <Typography id="input-slider" gutterBottom>
-            Temperatura kotła
-        </Typography>
-        <Grid container spacing={2} alignItems="center">
-          <Grid item>
-            <DeviceThermostatIcon sx={{ color: red[600], fontSize: 30}} />
-          </Grid>
-          <Grid item xs>
-            <Slider
-                min={20}
-                max={85}
-                step={1}
-                marks={marks}
-                defaultValue={30}
-                valueLabelDisplay="auto"
-                aria-labelledby="input-slider"
-                sx={{ color: red[600]}}
-            />
+          </Typography>
+
+        </Toolbar>
+      </AppBar>
+    </Box>
+
+        <main className="Main">
+          <Container maxWidth="lg" sx={{paddingTop: 4, paddingBottom: 4}}>
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={8} lg={4}>
+                <Paper sx={{padding: 2, display: "flex", overflow: "auto", flexDirection: "column"}}>
+                  <img src={homePeriscopeLogo} className="App-logo-periscope" alt="logo"/>
+                </Paper>
+              </Grid>
+
+              <Grid item xs={12} md={3} lg={6}>
+                <Paper sx={{padding: 4, display: "flex", overflow: "auto", flexDirection: "column"}}>
+                  <Typography component="h2" variant="h6" gutterBottom sx={{justifyContent: "flex-start",display: "flex", alignItems: "center",}}>
+                    <DeviceThermostatIcon sx={{ color: red[600], fontSize: 30}} /> Temperatura kotła
+                  </Typography>
+                  <Slider
+                      min={20}
+                      max={85}
+                      step={1}
+                      marks={marks}
+                      defaultValue={30}
+                      valueLabelDisplay="auto"
+                      aria-labelledby="input-slider"
+                      sx={{color: red[600]}}
+                  />
+                </Paper>
+                <Paper sx={{padding: 4, display: "flex", overflow: "auto", flexDirection: "column"}}>
+                  <Typography component="h2" variant="h6" gutterBottom sx={{justifyContent: "flex-start",display: "flex", alignItems: "center",}}>
+                    <DeviceThermostatIcon sx={{ color: orange[600], fontSize: 30}} /> Temperatura mieszacza
+                  </Typography>
+                  <Slider
+                      min={20}
+                      max={85}
+                      step={1}
+                      marks={marks}
+                      defaultValue={30}
+                      valueLabelDisplay="auto"
+                      aria-labelledby="input-slider"
+                      sx={{color: orange[600]}}
+                  />
+                </Paper>
+                <Paper sx={{padding: 4, display: "flex", overflow: "auto", flexDirection: "column"}}>
+                  <Typography component="h2" variant="h6" gutterBottom sx={{justifyContent: "flex-start",display: "flex", alignItems: "center",}}>
+                    <DeviceThermostatIcon sx={{ color: blue[600], fontSize: 30}} /> C.W.U.
+                  </Typography>
+                  <Slider
+                      min={20}
+                      max={85}
+                      step={1}
+                      marks={marks}
+                      defaultValue={30}
+                      valueLabelDisplay="auto"
+                      aria-labelledby="input-slider"
+                      sx={{color: blue[600]}}
+                  />
+                </Paper>
+              </Grid>
+
             </Grid>
-        </Grid>
-      </Box>
-    </div>
-  );
+
+          </Container>
+        </main>
+      </div>
+);
 }
 
 export default App;

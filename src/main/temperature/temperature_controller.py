@@ -5,19 +5,19 @@ from fastapi_injector import Injected
 from fastapi_utils.cbv import cbv
 from fastapi_utils.inferring_router import InferringRouter
 
-from main.temperature.heating_temperature_repository import HeatingTemperatureRepository
-from main.temperature.mixer_temperature_repository import MixerTemperatureRepository
+from main.temperature.heating_temperature_repository import IHeatingTemperatureRepository
+from main.temperature.mixer_temperature_repository import IMixerTemperatureRepository
 from main.temperature.temperature import Temperature
-from main.temperature.water_heater_temperature_repository import WaterHeaterTemperatureRepository
+from main.temperature.water_heater_temperature_repository import IWaterHeaterTemperatureRepository
 
 temperature_router = InferringRouter(tags=["DashboardController"])
 
 
 @cbv(temperature_router)
 class TemperatureController:
-    heating_temperature_repository: HeatingTemperatureRepository = Injected(HeatingTemperatureRepository)
-    water_heater_temperature_repository: WaterHeaterTemperatureRepository = Injected(WaterHeaterTemperatureRepository)
-    mixer_temperature_repository: MixerTemperatureRepository = Injected(MixerTemperatureRepository)
+    heating_temperature_repository: IHeatingTemperatureRepository = Injected(IHeatingTemperatureRepository)
+    water_heater_temperature_repository: IWaterHeaterTemperatureRepository = Injected(IWaterHeaterTemperatureRepository)
+    mixer_temperature_repository: IMixerTemperatureRepository = Injected(IMixerTemperatureRepository)
 
     @temperature_router.get("/api/heating_temperature")
     async def heating_temperature(self, request: Request):

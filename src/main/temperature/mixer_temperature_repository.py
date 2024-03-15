@@ -1,3 +1,5 @@
+from abc import ABC, abstractmethod
+
 import pyplumio
 from injector import inject
 
@@ -7,7 +9,13 @@ from main.core.configuration import Configuration
 from main.temperature.temperature import Temperature
 
 
-class MixerTemperatureRepository:
+class IMixerTemperatureRepository(ABC):
+    @abstractmethod
+    async def get_temperature(self) -> Temperature:
+        pass
+
+
+class MixerTemperatureRepository(IMixerTemperatureRepository):
     stream_ip: str
     stream_port: int
     min_temperature: int

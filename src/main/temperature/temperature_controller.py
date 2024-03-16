@@ -10,7 +10,7 @@ from main.temperature.mixer_temperature_repository import IMixerTemperatureRepos
 from main.temperature.temperature import Temperature
 from main.temperature.water_heater_temperature_repository import IWaterHeaterTemperatureRepository
 
-temperature_router = InferringRouter(tags=["DashboardController"])
+temperature_router = InferringRouter(tags=["TemperatureController"])
 
 
 @cbv(temperature_router)

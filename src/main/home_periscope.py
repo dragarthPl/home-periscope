@@ -7,6 +7,8 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
 from main.dashboard.dashboard_controller import dashboard_router
+from main.stove_state.stove_state_controller import stove_state_router
+from main.stove_state.stove_state_repository import StoveStateRepository, IStoveStateRepository
 from main.temperature.heating_temperature_repository import IHeatingTemperatureRepository, HeatingTemperatureRepository
 from main.temperature.mixer_temperature_repository import IMixerTemperatureRepository, MixerTemperatureRepository
 from main.temperature.temperature_controller import temperature_router
@@ -18,6 +20,7 @@ def configure(binder):
     binder.bind(IMixerTemperatureRepository, to=MixerTemperatureRepository)
     binder.bind(IWaterHeaterTemperatureRepository, to=WaterHeaterTemperatureRepository)
     binder.bind(IHeatingTemperatureRepository, to=HeatingTemperatureRepository)
+    binder.bind(IStoveStateRepository, to=StoveStateRepository)
 
 
 class HomePeriscope:
@@ -29,6 +32,8 @@ class HomePeriscope:
         self.app.mount("/static", StaticFiles(directory=self.find_static_folder()), name="static")
         self.app.include_router(dashboard_router)
         self.app.include_router(temperature_router)
+        self.app.include_router(temperature_router)
+        self.app.include_router(stove_state_router)
         self.app.state.injector = a_injector
         attach_injector(self.app, a_injector)
 

@@ -27,7 +27,7 @@ class MixerTemperatureRepository(IMixerTemperatureRepository):
         self.stream_port = configuration.stream_port
         self.min_temperature = configuration.default_minimum_temperature
         self.max_temperature = configuration.default_maximum_temperature
-    # split-environments
+
     async def get_temperature(self) -> Temperature:
         async with pyplumio.open_tcp_connection(self.stream_ip, self.stream_port) as conn:
             ecomax = await conn.get("ecomax")

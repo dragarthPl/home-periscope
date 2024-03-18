@@ -17,7 +17,7 @@ export async function client(endpoint, { body, ...customConfig } = {}) {
 
   let data
   try {
-    const response = await fetch('http://localhost:5000/' + endpoint, config)
+    const response = await fetch(endpoint, config)
     data = await response.json()
     if (response.ok) {
       return data

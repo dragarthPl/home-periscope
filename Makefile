@@ -6,6 +6,10 @@ run-dev:
 build-frontend:
 	cd frontend && pnpm build && cd ..
 
+.PHONY: run-frontend
+run-frontend:
+	cd frontend && pnpm start && cd ..
+
 .PHONY: build-docker
 build-docker:
 	docker build -t home-periscope .

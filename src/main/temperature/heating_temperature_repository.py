@@ -33,3 +33,9 @@ class HeatingTemperatureRepository(IHeatingTemperatureRepository):
                 'target_temperature': heating_target_temp.value,
                 'current': int(heating_temp),
             })
+
+    async def set_temperature(self, temperature: int) -> bool:
+        async with pyplumio.open_tcp_connection(self.stream_ip, self.stream_port) as conn:
+            ecomax = await conn.get("ecomax")
+            result = await ecomax.set("heating_target_temp", temperature)
+            return result

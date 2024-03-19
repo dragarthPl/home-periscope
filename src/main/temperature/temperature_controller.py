@@ -31,6 +31,19 @@ class TemperatureController:
                 "min_temperature": None,
             }
 
+    @temperature_router.post("/api/heating_temperature")
+    async def set_heating_temperature(self, request: Request, temperature: Temperature):
+        result: bool = await self.heating_temperature_repository.set_temperature(temperature)
+        if result:
+            temperature: Temperature = await self.heating_temperature_repository.get_temperature()
+            return asdict(temperature)
+        else:
+            return {
+                "current": None,
+                "max_temperature": None,
+                "min_temperature": None,
+            }
+
     @temperature_router.get("/api/water_heater_temperature")
     async def water_heater_temperature(self, request: Request):
         temperature: Temperature = await self.water_heater_temperature_repository.get_temperature()

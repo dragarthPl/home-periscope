@@ -23,13 +23,14 @@ pytz = "2024.1"
 python-dateutil = "2.8.2"
 injector = "0.21.0"
 aiounittest = "^1.4.2"
+types-pyyaml = "^6.0.12.20240311"
 
 [tool.poetry.group.dev.dependencies]
 autoflake = "2.2.1"
 pytest = "7.4.4"
 black = "24.2.0"
 isort = "5.11.2"
-mypy = "1.8.0"
+mypy = "1.9.0"
 
 [build-system]
 requires = ["poetry-core"]
@@ -47,17 +48,19 @@ profile = "black"
 
 [tool.black]
 line-length = 120
-target-version = ['py310']
+target-version = ['py311']
 skip-string-normalization = true
 
 [tool.mypy]
-python_version = "3.9"
+python_version = "3.11"
 ignore_missing_imports = true
 scripts_are_modules = true
 explicit_package_bases = true
 pretty = true
 #allow_subclassing_any = true
+follow_imports = "normal"
 strict = true
+mypy_path = "src"
 
 [tool.pytest.ini_options]
 pythonpath = [

@@ -10,6 +10,10 @@ build-frontend:
 run-frontend:
 	cd frontend && pnpm start && cd ..
 
+.PHONY: test
+test:
+	poetry run pytest -vvv .
+
 .PHONY: build-docker
 build-docker:
 	docker build -t home-periscope .

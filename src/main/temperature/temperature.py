@@ -9,7 +9,7 @@ class Temperature:
     current: int | None
 
     @staticmethod
-    def from_dict(data: dict) -> "Temperature":
+    def from_dict(data: dict[str, int | None]) -> "Temperature":
         return Temperature(
             max_temperature=data.get("max_temperature", None),
             min_temperature=data.get("min_temperature", None),

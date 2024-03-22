@@ -12,6 +12,10 @@ class IHeatingTemperatureRepository(ABC):
     async def get_temperature(self) -> Temperature:
         pass
 
+    @abstractmethod
+    async def set_temperature(self, temperature: int) -> bool:
+        pass
+
 
 class HeatingTemperatureRepository(IHeatingTemperatureRepository):
     stream_ip: str
@@ -37,5 +41,6 @@ class HeatingTemperatureRepository(IHeatingTemperatureRepository):
     async def set_temperature(self, temperature: int) -> bool:
         async with pyplumio.open_tcp_connection(self.stream_ip, self.stream_port) as conn:
             ecomax = await conn.get("ecomax")
-            result = await ecomax.set("heating_target_temp", temperature)
+            result = bool(await ecomax.set("heating_target_temp", temperature))
             return result
+        return False

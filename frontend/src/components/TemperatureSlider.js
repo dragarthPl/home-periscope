@@ -14,15 +14,15 @@ const prepareMarks = (min, max) => {
     return marks;
 }
 
-const TemperatureSlider = ({ minTemperature, maxTemperature, targetTemperature, current, color }) => {
+const TemperatureSlider = ({ minTemperature, maxTemperature, targetTemperature, current, color, onChangeCommitted }) => {
   const marks = prepareMarks(minTemperature, maxTemperature);
 
     return (
         <Paper sx={{padding: 4, display: "flex", overflow: "auto", flexDirection: "column"}}>
           <Typography component="h2" variant="h6" gutterBottom sx={{justifyContent: "flex-start",display: "flex", alignItems: "center",}}>
               <DeviceThermostatIcon sx={{ color: color, fontSize: 30}} />
-              <Typography component="h2" variant="h6" sx={{justifyContent: "flex-start",display: "flex", alignItems: "center",}}>Temperatura kotła: </Typography>
-              <Typography component="h2" variant="h6" sx={{justifyContent: "flex-start",display: "flex", alignItems: "center", color: color, marginLeft: 1}} > {current}°C</Typography>
+              <Typography sx={{justifyContent: "flex-start",display: "flex", alignItems: "center", fontSize: 20}}>Temperatura kotła: </Typography>
+              <Typography sx={{justifyContent: "flex-start",display: "flex", alignItems: "center", color: color, marginLeft: 1, fontSize: 20}} > {current}°C</Typography>
           </Typography>
           <Slider
               min={minTemperature}
@@ -33,7 +33,7 @@ const TemperatureSlider = ({ minTemperature, maxTemperature, targetTemperature, 
               valueLabelDisplay="auto"
               aria-labelledby="input-slider"
               sx={{color: color}}
-
+              onChangeCommitted={onChangeCommitted}
           />
         </Paper>
     )

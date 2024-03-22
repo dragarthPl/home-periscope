@@ -28,14 +28,24 @@ const initialState = {
 
 const temperatureAdapter = createEntityAdapter()
 
-// const initialState = temperatureAdapter.getInitialState({
-//   status: 'idle'
-// })
-
 
 export const fetchHeatingTemperature = createAsyncThunk('temperature/fetchHeatingTemperature', async () => {
   const response = await client.get('/api/heating_temperature')
   return response
+})
+export const fetchMixerTemperature = createAsyncThunk('temperature/fetchMixerTemperature', async () => {
+  const response = await client.get('/api/mixer_temperature')
+  return response
+})
+
+export const setHeatingTemperature = createAsyncThunk('temperature/setHeatingTemperature', async (temperature) => {
+    const response = await client.post('/api/heating_temperature', {temperature: temperature})
+    return response
+})
+
+export const setMixerTemperature = createAsyncThunk('temperature/setMixerTemperature', async (temperature) => {
+    const response = await client.post('/api/mixer_temperature', {temperature: temperature})
+    return response
 })
 
 const todosSlice = createSlice({
@@ -43,7 +53,6 @@ const todosSlice = createSlice({
   initialState,
   reducers: {
     updateHeatingTemperature(state, action) {
-      // ✅ This "mutating" code is okay inside of createSlice!
       const newTemperature = action.payload
       if (newTemperature !== undefined) {
         state.entities.heatingTemperature = {
@@ -53,7 +62,23 @@ const todosSlice = createSlice({
           current: newTemperature.current,
         }
       }
-
+    },
+    updateMixerTemperature(state, action) {
+      const newTemperature = action.payload
+      if (newTemperature !== undefined) {
+        state.entities.mixerTemperature = {
+          minTemperature: newTemperature.min_temperature,
+          maxTemperature: newTemperature.max_temperature,
+          targetTemperature: newTemperature.target_temperature,
+          current: newTemperature.current,
+        }
+      }
+    },
+    changeSliceHeatingTemperature(state, action) {
+      state.heatingTemperature.targetTemperature = action.payload
+    },
+    changeSliceMixerTemperature(state, action) {
+      state.mixerTemperature.targetTemperature = action.payload
     }
   },
   extraReducers: builder => {
@@ -70,10 +95,49 @@ const todosSlice = createSlice({
         state.heatingTemperature = heatingTemperature
         state.status = 'idle'
       })
+      .addCase(setHeatingTemperature.pending, (state, action) => {
+        state.status = 'loading'
+      })
+      .addCase(setHeatingTemperature.fulfilled, (state, action) => {
+        const heatingTemperature = {}
+        heatingTemperature.minTemperature = action.payload.min_temperature
+        heatingTemperature.maxTemperature = action.payload.max_temperature
+        heatingTemperature.targetTemperature = action.payload.target_temperature
+        heatingTemperature.current = action.payload.current
+        state.heatingTemperature = heatingTemperature
+      })
+      .addCase(fetchMixerTemperature.pending, (state, action) => {
+        state.status = 'loading'
+      })
+      .addCase(fetchMixerTemperature.fulfilled, (state, action) => {
+        const mixerTemperature = {}
+        mixerTemperature.minTemperature = action.payload.min_temperature
+        mixerTemperature.maxTemperature = action.payload.max_temperature
+        mixerTemperature.targetTemperature = action.payload.target_temperature
+        mixerTemperature.current = action.payload.current
+        state.mixerTemperature = mixerTemperature
+        state.status = 'idle'
+      })
+      .addCase(setMixerTemperature.pending, (state, action) => {
+        state.status = 'loading'
+      })
+      .addCase(setMixerTemperature.fulfilled, (state, action) => {
+        const mixerTemperature = {}
+        mixerTemperature.minTemperature = action.payload.min_temperature
+        mixerTemperature.maxTemperature = action.payload.max_temperature
+        mixerTemperature.targetTemperature = action.payload.target_temperature
+        mixerTemperature.current = action.payload.current
+        state.mixerTemperature = mixerTemperature
+      })
   }
 })
 
-export const { updateHeatingTemperature } = todosSlice.actions
+export const {
+  updateHeatingTemperature,
+  updateMixerTemperature,
+  changeSliceHeatingTemperature,
+    changeSliceMixerTemperature,
+} = todosSlice.actions
 
 export default todosSlice.reducer
 

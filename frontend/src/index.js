@@ -5,10 +5,12 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { store } from './store'
 import { Provider } from 'react-redux'
-import {fetchHeatingTemperature} from "./features/temperature/temepratureSlice";
+import {fetchHeatingTemperature, fetchMixerTemperature} from "./features/temperature/temepratureSlice";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-store.dispatch(fetchHeatingTemperature())
+store.dispatch(fetchHeatingTemperature()).then(() => {
+  store.dispatch(fetchMixerTemperature());
+});
 root.render(
   <React.StrictMode>
     <Provider store={store}>

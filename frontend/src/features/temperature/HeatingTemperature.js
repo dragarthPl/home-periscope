@@ -28,6 +28,7 @@ const HeatingTemperature = () => {
 
   return <TemperatureSlider
       key='heatingTemperature'
+      title={'Temperatura kotła: '}
       minTemperature={heatingTemperature.minTemperature}
       maxTemperature={heatingTemperature.maxTemperature}
       targetTemperature={heatingTemperature.targetTemperature}

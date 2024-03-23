@@ -38,6 +38,11 @@ export const fetchMixerTemperature = createAsyncThunk('temperature/fetchMixerTem
   return response
 })
 
+export const fetchWaterHeatingTemperature = createAsyncThunk('temperature/fetchWaterHeatingTemperature', async () => {
+  const response = await client.get('/api/water_heater_temperature')
+  return response
+})
+
 export const setHeatingTemperature = createAsyncThunk('temperature/setHeatingTemperature', async (temperature) => {
     const response = await client.post('/api/heating_temperature', {temperature: temperature})
     return response
@@ -45,6 +50,11 @@ export const setHeatingTemperature = createAsyncThunk('temperature/setHeatingTem
 
 export const setMixerTemperature = createAsyncThunk('temperature/setMixerTemperature', async (temperature) => {
     const response = await client.post('/api/mixer_temperature', {temperature: temperature})
+    return response
+})
+
+export const setWaterHeatingTemperature = createAsyncThunk('temperature/setWaterHeatingTemperature', async (temperature) => {
+    const response = await client.post('/api/water_heater_temperature', {temperature: temperature})
     return response
 })
 
@@ -74,12 +84,26 @@ const todosSlice = createSlice({
         }
       }
     },
+    updateWaterHeatingTemperature(state, action) {
+      const newTemperature = action.payload
+      if (newTemperature !== undefined) {
+        state.entities.waterHeatingTemperature = {
+          minTemperature: newTemperature.min_temperature,
+          maxTemperature: newTemperature.max_temperature,
+          targetTemperature: newTemperature.target_temperature,
+          current: newTemperature.current,
+        }
+      }
+    },
     changeSliceHeatingTemperature(state, action) {
       state.heatingTemperature.targetTemperature = action.payload
     },
     changeSliceMixerTemperature(state, action) {
       state.mixerTemperature.targetTemperature = action.payload
-    }
+    },
+    changeSliceWaterHeatingTemperature(state, action) {
+      state.waterHeatingTemperature.targetTemperature = action.payload
+    },
   },
   extraReducers: builder => {
     builder
@@ -129,14 +153,39 @@ const todosSlice = createSlice({
         mixerTemperature.current = action.payload.current
         state.mixerTemperature = mixerTemperature
       })
+      .addCase(fetchWaterHeatingTemperature.pending, (state, action) => {
+        state.status = 'loading'
+      })
+      .addCase(fetchWaterHeatingTemperature.fulfilled, (state, action) => {
+        const waterHeatingTemperature = {}
+        waterHeatingTemperature.minTemperature = action.payload.min_temperature
+        waterHeatingTemperature.maxTemperature = action.payload.max_temperature
+        waterHeatingTemperature.targetTemperature = action.payload.target_temperature
+        waterHeatingTemperature.current = action.payload.current
+        state.waterHeatingTemperature = waterHeatingTemperature
+        state.status = 'idle'
+      })
+      .addCase(setWaterHeatingTemperature.pending, (state, action) => {
+        state.status = 'loading'
+      })
+      .addCase(setWaterHeatingTemperature.fulfilled, (state, action) => {
+        const waterHeatingTemperature = {}
+        waterHeatingTemperature.minTemperature = action.payload.min_temperature
+        waterHeatingTemperature.maxTemperature = action.payload.max_temperature
+        waterHeatingTemperature.targetTemperature = action.payload.target_temperature
+        waterHeatingTemperature.current = action.payload.current
+        state.waterHeatingTemperature = waterHeatingTemperature
+      })
   }
 })
 
 export const {
   updateHeatingTemperature,
   updateMixerTemperature,
+  updateWaterHeatingTemperature,
   changeSliceHeatingTemperature,
-    changeSliceMixerTemperature,
+  changeSliceMixerTemperature,
+  changeSliceWaterHeatingTemperature,
 } = todosSlice.actions
 
 export default todosSlice.reducer

@@ -14,7 +14,7 @@ const prepareMarks = (min, max) => {
     return marks;
 }
 
-const TemperatureSlider = ({ minTemperature, maxTemperature, targetTemperature, current, color, onChangeCommitted }) => {
+const TemperatureSlider = ({ title, minTemperature, maxTemperature, targetTemperature, current, color, onChangeCommitted }) => {
   const marks = prepareMarks(minTemperature, maxTemperature);
 
     return (

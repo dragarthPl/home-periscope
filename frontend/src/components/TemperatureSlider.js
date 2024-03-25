@@ -21,7 +21,7 @@ const TemperatureSlider = ({ title, minTemperature, maxTemperature, targetTemper
         <Paper sx={{padding: 4, display: "flex", overflow: "auto", flexDirection: "column"}}>
           <Typography component="h2" variant="h6" gutterBottom sx={{justifyContent: "flex-start",display: "flex", alignItems: "center",}}>
               <DeviceThermostatIcon sx={{ color: color, fontSize: 30}} />
-              <Typography sx={{justifyContent: "flex-start",display: "flex", alignItems: "center", fontSize: 20}}>Temperatura kotła: </Typography>
+              <Typography sx={{justifyContent: "flex-start",display: "flex", alignItems: "center", fontSize: 20}}>{title}</Typography>
               <Typography sx={{justifyContent: "flex-start",display: "flex", alignItems: "center", color: color, marginLeft: 1, fontSize: 20}} > {current}°C</Typography>
           </Typography>
           <Slider

@@ -38,7 +38,7 @@ export const fetchMixerTemperature = createAsyncThunk('temperature/fetchMixerTem
   return response
 })
 
-export const fetchWaterHeatingTemperature = createAsyncThunk('temperature/fetchWaterHeatingTemperature', async () => {
+export const fetchWaterHeaterTemperature = createAsyncThunk('temperature/fetchWaterHeatingTemperature', async () => {
   const response = await client.get('/api/water_heater_temperature')
   return response
 })
@@ -53,7 +53,7 @@ export const setMixerTemperature = createAsyncThunk('temperature/setMixerTempera
     return response
 })
 
-export const setWaterHeatingTemperature = createAsyncThunk('temperature/setWaterHeatingTemperature', async (temperature) => {
+export const setWaterHeaterTemperature = createAsyncThunk('temperature/setWaterHeatingTemperature', async (temperature) => {
     const response = await client.post('/api/water_heater_temperature', {temperature: temperature})
     return response
 })
@@ -84,10 +84,10 @@ const todosSlice = createSlice({
         }
       }
     },
-    updateWaterHeatingTemperature(state, action) {
+    updateWaterHeaterTemperature(state, action) {
       const newTemperature = action.payload
       if (newTemperature !== undefined) {
-        state.entities.waterHeatingTemperature = {
+        state.entities.waterHeaterTemperature = {
           minTemperature: newTemperature.min_temperature,
           maxTemperature: newTemperature.max_temperature,
           targetTemperature: newTemperature.target_temperature,
@@ -101,8 +101,8 @@ const todosSlice = createSlice({
     changeSliceMixerTemperature(state, action) {
       state.mixerTemperature.targetTemperature = action.payload
     },
-    changeSliceWaterHeatingTemperature(state, action) {
-      state.waterHeatingTemperature.targetTemperature = action.payload
+    changeSliceWaterHeaterTemperature(state, action) {
+      state.waterHeaterTemperature.targetTemperature = action.payload
     },
   },
   extraReducers: builder => {
@@ -153,28 +153,28 @@ const todosSlice = createSlice({
         mixerTemperature.current = action.payload.current
         state.mixerTemperature = mixerTemperature
       })
-      .addCase(fetchWaterHeatingTemperature.pending, (state, action) => {
+      .addCase(fetchWaterHeaterTemperature.pending, (state, action) => {
         state.status = 'loading'
       })
-      .addCase(fetchWaterHeatingTemperature.fulfilled, (state, action) => {
-        const waterHeatingTemperature = {}
-        waterHeatingTemperature.minTemperature = action.payload.min_temperature
-        waterHeatingTemperature.maxTemperature = action.payload.max_temperature
-        waterHeatingTemperature.targetTemperature = action.payload.target_temperature
-        waterHeatingTemperature.current = action.payload.current
-        state.waterHeatingTemperature = waterHeatingTemperature
+      .addCase(fetchWaterHeaterTemperature.fulfilled, (state, action) => {
+        const waterHeaterTemperature = {}
+        waterHeaterTemperature.minTemperature = action.payload.min_temperature
+        waterHeaterTemperature.maxTemperature = action.payload.max_temperature
+        waterHeaterTemperature.targetTemperature = action.payload.target_temperature
+        waterHeaterTemperature.current = action.payload.current
+        state.waterHeaterTemperature = waterHeaterTemperature
         state.status = 'idle'
       })
-      .addCase(setWaterHeatingTemperature.pending, (state, action) => {
+      .addCase(setWaterHeaterTemperature.pending, (state, action) => {
         state.status = 'loading'
       })
-      .addCase(setWaterHeatingTemperature.fulfilled, (state, action) => {
-        const waterHeatingTemperature = {}
-        waterHeatingTemperature.minTemperature = action.payload.min_temperature
-        waterHeatingTemperature.maxTemperature = action.payload.max_temperature
-        waterHeatingTemperature.targetTemperature = action.payload.target_temperature
-        waterHeatingTemperature.current = action.payload.current
-        state.waterHeatingTemperature = waterHeatingTemperature
+      .addCase(setWaterHeaterTemperature.fulfilled, (state, action) => {
+        const waterHeaterTemperature = {}
+        waterHeaterTemperature.minTemperature = action.payload.min_temperature
+        waterHeaterTemperature.maxTemperature = action.payload.max_temperature
+        waterHeaterTemperature.targetTemperature = action.payload.target_temperature
+        waterHeaterTemperature.current = action.payload.current
+        state.waterHeaterTemperature = waterHeaterTemperature
       })
   }
 })
@@ -182,10 +182,10 @@ const todosSlice = createSlice({
 export const {
   updateHeatingTemperature,
   updateMixerTemperature,
-  updateWaterHeatingTemperature,
+  updateWaterHeaterTemperature,
   changeSliceHeatingTemperature,
   changeSliceMixerTemperature,
-  changeSliceWaterHeatingTemperature,
+  changeSliceWaterHeaterTemperature,
 } = todosSlice.actions
 
 export default todosSlice.reducer

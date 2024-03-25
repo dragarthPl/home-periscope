@@ -1,58 +1,18 @@
 import homePeriscopeLogo from './home-periscope.png';
 import './App.css';
-import {blue, orange, red} from '@mui/material/colors';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import Slider from '@mui/material/Slider';
 import Typography from '@mui/material/Typography';
-import DeviceThermostatIcon from "@mui/icons-material/DeviceThermostat";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import HeatingTemperature from './features/temperature/HeatingTemperature';
 import MixerTemperature from "./features/temperature/MixerTemperature";
+import WaterHeaterTemperature from './features/temperature/WaterHeaterTemperature';
 
-const marks = [
-  {
-    value: 20,
-    label: '20°C',
-  },
-  {
-    value: 30,
-    label: '30°C',
-  },
-  {
-    value: 40,
-    label: '40°C',
-  },
-    {
-    value: 40,
-    label: '40°C',
-  },
-    {
-    value: 50,
-    label: '50°C',
-  },
-    {
-    value: 60,
-    label: '60°C',
-  },
-  {
-    value: 70,
-    label: '70°C',
-  },
-    {
-    value: 80,
-    label: '80°C',
-  },
-    {
-    value: 85,
-    label: '90°C',
-  },
-];
 
 function App() {
 
@@ -82,25 +42,10 @@ function App() {
           <Container maxWidth="lg" sx={{paddingTop: 4, paddingBottom: 4}}>
             <Grid container spacing={3}>
 
-
               <Grid item xs={12} md={3} lg={6}>
                 <HeatingTemperature />
                 <MixerTemperature />
-                <Paper sx={{padding: 4, display: "flex", overflow: "auto", flexDirection: "column"}}>
-                  <Typography component="h2" variant="h6" gutterBottom sx={{justifyContent: "flex-start",display: "flex", alignItems: "center",}}>
-                    <DeviceThermostatIcon sx={{ color: blue[600], fontSize: 30}} /> C.W.U.
-                  </Typography>
-                  <Slider
-                      min={20}
-                      max={85}
-                      step={1}
-                      marks={marks}
-                      defaultValue={30}
-                      valueLabelDisplay="auto"
-                      aria-labelledby="input-slider"
-                      sx={{color: blue[600]}}
-                  />
-                </Paper>
+                <WaterHeaterTemperature />
               </Grid>
 
               <Grid item xs={12} md={8} lg={4}>

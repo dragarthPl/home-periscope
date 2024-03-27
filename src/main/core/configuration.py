@@ -11,9 +11,15 @@ with open(os.path.join(root_path, "config","configuration.yaml")) as f:
     yaml_configuration.update(yaml.load(f, Loader=yaml.FullLoader))
 
 
-class Configuration(BaseSettings):
-    stream_ip = yaml_configuration['stream_ip']
-    stream_port = yaml_configuration['stream_port']
+class Features:
+    log_to_file: bool = yaml_configuration.get('features', {}).get('log_to_file', False)
 
-    default_maximum_temperature = yaml_configuration['default_maximum_temperature']
-    default_minimum_temperature = yaml_configuration['default_minimum_temperature']
+
+class Configuration(BaseSettings):
+    stream_ip: str = yaml_configuration['stream_ip']
+    stream_port: int = yaml_configuration['stream_port']
+
+    default_maximum_temperature: int = yaml_configuration['default_maximum_temperature']
+    default_minimum_temperature: int = yaml_configuration['default_minimum_temperature']
+
+    features = Features()

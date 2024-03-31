@@ -7,12 +7,14 @@ import yaml
 yaml_configuration = dict()
 
 root_path = Path(os.path.abspath(os.path.dirname(__file__))).parent.parent.parent
-with open(os.path.join(root_path, "config","configuration.yaml")) as f:
+with open(os.path.join(root_path, "config", "configuration.yaml")) as f:
     yaml_configuration.update(yaml.load(f, Loader=yaml.FullLoader))
 
+features_configuration = yaml_configuration.get('features', {})
 
 class Features:
-    log_to_file: bool = yaml_configuration.get('features', {}).get('log_to_file', False)
+    file_logging: bool = features_configuration.get('file_logging', False)
+    demo_mode: bool = features_configuration.get('demo_mode', False)
 
 
 class Configuration(BaseSettings):

@@ -20,3 +20,23 @@ class TestTemperature(unittest.TestCase):
             'min_temperature': 20,
             'target_temperature': 40,
         }, response.json())
+
+    def test_mixer_temperature(self) -> None:
+        response = client.get("/api/mixer_temperature")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual({
+            'current': 50,
+            'max_temperature': 60,
+            'min_temperature': 40,
+            'target_temperature': 40,
+        }, response.json())
+
+    def test_water_heater_temperature(self) -> None:
+        response = client.get("/api/water_heater_temperature")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual({
+            'current': 56,
+            'max_temperature': 60,
+            'min_temperature': 40,
+            'target_temperature': 50,
+        }, response.json())

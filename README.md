@@ -25,6 +25,8 @@ Zakładana jest rozudowa projektu o automatyzacje innych urządzeń w domu (np. 
   - [ ] Zmiana trybu pracy pieca
 - [ ] Wyświetlanie danych na na stronie internetowej
 - [ ] Automatyczne sterowanie piecem
+- [ ] Tryb "zaślepki"/demo - uruchomienie aplikacji bez komunikacji z piecem
+- [ ] Automatyczne testoanie aplikacji
 
 ## Komunikacja z sterownikiem pieca
 
@@ -57,3 +59,17 @@ Dodatko zakładamy warian uruchomienia aplikaji z "zaślepką", czyli bez komuni
 ## Instalacja python na raspbery pi w innej wersji niż standardowa 
 
  - https://www.enablegeek.com/tutorial/install-python-on-a-raspberry-pi-step-by-step-guide/
+
+## Instalaja i uruchomienie - raspbery pi
+
+### Wymagania
+
+- Python 3.11
+- Redis 7.2.4
+- poetry 1.8.1
+- nodejs v20.11.0
+- pnpm 8.14.3
+
+### Przygotowanie środowiska
+
+...

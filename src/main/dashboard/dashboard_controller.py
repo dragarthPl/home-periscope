@@ -1,3 +1,4 @@
+
 from fastapi_utils.cbv import cbv
 
 from fastapi import Request
@@ -14,7 +15,7 @@ dashboard_router = InferringRouter(tags=["DashboardController"])
 class DashboardController:
 
     @dashboard_router.get("/")
-    async def main(self, request: Request):
+    async def main(self, request: Request):  # type: ignore[no-untyped-def]
         result = "Enter your name"
         return templates.TemplateResponse(
             "index.html", context={"request": request, "result": result}

@@ -8,4 +8,5 @@ class MixerTemperatureSampleRepository(IMixerTemperatureRepository):
             'current': 50,
             'max_temperature': 60,
             'min_temperature': 40,
+            "target_temperature": 40,
         })

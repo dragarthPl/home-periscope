@@ -72,4 +72,67 @@ Dodatko zakładamy warian uruchomienia aplikaji z "zaślepką", czyli bez komuni
 
 ### Przygotowanie środowiska
 
-...
+### Opcja 1. Raspberry Pi Zero
+
+#### Instalcja Python 3.11
+
+1. Aktualzacja systemu
+```bash
+sudo apt-get update
+```
+
+2. Instalacja zależności
+```bash
+sudo apt-get install build-essential tk-dev libncurses5-dev libncursesw5-dev libreadline6-dev libdb5.3-dev libgdbm-dev libsqlite3-dev libssl-dev libbz2-dev libexpat1-dev liblzma-dev zlib1g-dev libffi-dev
+```
+
+3. Pobranie Python 3.11
+```bash
+wget https://www.python.org/ftp/python/3.11.9/Python-3.11.9.tar.xz
+```
+
+4. Instalacja Python 3.11
+```bash
+tar -xvf Python-3.11.9.tar.xz
+cd Python-3.11.9
+./configure --enable-optimizations
+make -j 2
+sudo make altinstall
+```
+
+5. Veryfikacja instalacji
+```bash
+python3.11 --version
+```
+
+#### Instalacja Redis 7.2.4
+
+1. Pobrać Redis 7.2.4
+```bash
+wget https://download.redis.io/redis-stable.tar.gz
+```
+
+2. Kompliacja i instalacja
+```bash
+tar -xzvf redis-stable.tar.gz
+cd redis-stable
+make
+sudo make install
+```
+
+3. Uruchomienie Redis
+```bash
+redis-server
+```
+
+#### Instalacja poetry 1.8.2
+
+1. Instalacja poetry
+```bash
+curl -sSL https://install.python-poetry.org | python3.11 -
+```
+
+2. Dodanie do PATH
+```bash
+export PATH="/home/maurycy/.local/bin:$PATH"
+```

@@ -21,6 +21,9 @@ class Configuration(BaseSettings):
     stream_ip: str = yaml_configuration['stream_ip']
     stream_port: int = yaml_configuration['stream_port']
 
+    redis_ip: str = yaml_configuration['redis_ip']
+    redis_port: int = yaml_configuration['redis_port']
+
     default_maximum_temperature: int = yaml_configuration['default_maximum_temperature']
     default_minimum_temperature: int = yaml_configuration['default_minimum_temperature']
 

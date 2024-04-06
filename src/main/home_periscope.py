@@ -1,3 +1,4 @@
+import asyncio
 import logging
 import sys
 from pathlib import Path
@@ -16,7 +17,9 @@ from main.core.sample_container import sample_container
 from main.dashboard.dashboard_controller import dashboard_router
 from main.stove_state.stove_state_controller import stove_state_router
 from main.temperature.temperature_controller import temperature_router
+from stove_connector.stream_stove_data import StreamStoveData
 
+configuration = Configuration()
 
 class HomePeriscope:
     application: FastAPI
@@ -32,6 +35,22 @@ class HomePeriscope:
         self.application.state.injector = a_injector
         attach_injector(self.application, a_injector)
 
+        stream_stove_data = StreamStoveData(
+            ip_stove_driver=configuration.stream_ip,
+            port_stove_driver=configuration.stream_port,
+            redis_ip=configuration.redis_ip,
+            redis_port=configuration.redis_port,
+        )
+
+        @self.application.on_event("startup")
+        def on_startup():
+            self.stream_stove_controller_data(stream_stove_data)
+
+    @staticmethod
+    def stream_stove_controller_data(stream_stove_data: StreamStoveData):
+        logger.info("Starting up")
+        asyncio.create_task(stream_stove_data.stream())
+
     def find_static_folder(self) -> Path:
         return Path(__file__).parent.parent.parent.joinpath("static", "static")
 
@@ -40,7 +59,7 @@ class HomePeriscope:
         return cls(configure).application
 
 
-configuration = Configuration()
+
 if configuration.features.file_logging:
     default_logging_level: str = logging.getLevelName(logging.INFO)
     logger.remove()

@@ -9,6 +9,7 @@ class HeatingTemperatureSampleRepository(IHeatingTemperatureRepository):
             'min_temperature': 20,
             'target_temperature': 40,
             'current': 30,
+            'timestamp': 1234567891,
         })
 
     async def set_temperature(self, temperature: int) -> bool:

@@ -9,4 +9,5 @@ class WaterHeaterTemperatureSampleRepository(IWaterHeaterTemperatureRepository):
             'max_temperature': 60,
             'min_temperature': 40,
             'target_temperature': 50,
+            'timestamp': 1234567893,
         })

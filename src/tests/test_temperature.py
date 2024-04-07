@@ -19,6 +19,7 @@ class TestTemperature(unittest.TestCase):
             'max_temperature': 60,
             'min_temperature': 20,
             'target_temperature': 40,
+            'timestamp': 1234567891,
         }, response.json())
 
     def test_mixer_temperature(self) -> None:
@@ -29,6 +30,7 @@ class TestTemperature(unittest.TestCase):
             'max_temperature': 60,
             'min_temperature': 40,
             'target_temperature': 40,
+            'timestamp': 1234567892,
         }, response.json())
 
     def test_water_heater_temperature(self) -> None:
@@ -39,4 +41,5 @@ class TestTemperature(unittest.TestCase):
             'max_temperature': 60,
             'min_temperature': 40,
             'target_temperature': 50,
+            'timestamp': 1234567893,
         }, response.json())

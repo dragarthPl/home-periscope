@@ -11,9 +11,9 @@ Zakładana jest rozudowa projektu o automatyzacje innych urządzeń w domu (np. 
 ## Założenia projektu
 
 - [ ] Odczyt danych z pieca
-  - [ ] Odcztanie temperatury mieszcza
-  - [ ] Odczytanie temperatury wody w piecu
-  - [ ] Odczytanie temperatury C.W.U.
+  - [x] Odcztanie temperatury mieszcza
+  - [x] Odczytanie temperatury wody w piecu
+  - [x] Odczytanie temperatury C.W.U.
   - [ ] Odczytanie trybu pracy pieca
   - [ ] Odczytanie stanu płomienia
   - [ ] Odczytanie harmonogramu zmiany temperatury

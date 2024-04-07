@@ -9,4 +9,5 @@ class MixerTemperatureSampleRepository(IMixerTemperatureRepository):
             'max_temperature': 60,
             'min_temperature': 40,
             "target_temperature": 40,
+            'timestamp': 1234567892,
         })

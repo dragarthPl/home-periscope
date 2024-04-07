@@ -7,6 +7,7 @@ class Temperature:
     min_temperature: int | None
     target_temperature: int | None
     current: int | None
+    timestamp: int | None
 
     @staticmethod
     def from_dict(data: dict[str, int | None]) -> "Temperature":
@@ -15,6 +16,7 @@ class Temperature:
             min_temperature=data.get("min_temperature", None),
             target_temperature=data.get("target_temperature", None),
             current=data.get("current", None),
+            timestamp=data.get("timestamp", None),
         )
 
     def to_dict(self) -> dict[str, int | None]:
@@ -23,4 +25,5 @@ class Temperature:
             "min_temperature": self.min_temperature,
             "target_temperature": self.target_temperature,
             "current": self.current,
+            "timestamp": self.timestamp,
         }

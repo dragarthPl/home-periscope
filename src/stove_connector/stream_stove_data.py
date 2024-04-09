@@ -1,4 +1,6 @@
+from datetime import datetime
 from typing import Any
+from loguru import logger
 
 import redis
 import asyncio
@@ -25,35 +27,39 @@ class StreamStoveData:
 
     @staticmethod
     def extract_value(parameter: EcomaxParameter | None):
+        if isinstance(parameter, (float, int)):
+            return parameter
         if parameter:
             return parameter.value
-        return None
+        return -1
 
     def map_stove_data_to_hash_map(self, data: dict[str, Any], mixer: dict[str, Any]) -> None:
         data_map = {
             'fan_power_percentage': self.extract_value(data.get('min_fan_power', None)),
             'state': self.extract_value(data.get('state', None)),
-            'feeder_temp': data['feeder_temp'],
-            'optical_temp': data['optical_temp'],
+            'feeder_temp': self.extract_value(data.get('feeder_temp', None)),
+            'optical_temp': self.extract_value(data.get('optical_temp', None)),
 
-            'heating_target': data['heating_target'],
-            'heating_status': data['heating_status'],
+            'heating_target': self.extract_value(data.get('heating_target', None)),
+            'heating_status': self.extract_value(data.get('heating_status', None)),
 
-            'heating_temp': data['heating_temp'],
-            'heating_target_temp': self.extract_value(data['heating_target_temp']),
-            'min_heating_target_temp': self.extract_value(data['min_heating_target_temp']),
-            'max_heating_target_temp': self.extract_value(data['max_heating_target_temp']),
+            'heating_temp': self.extract_value(data.get('heating_temp', None)),
+            'heating_target_temp': self.extract_value(data.get('heating_target_temp', None)),
+            'min_heating_target_temp': self.extract_value(data.get('min_heating_target_temp', None)),
+            'max_heating_target_temp': self.extract_value(data.get('max_heating_target_temp', None)),
 
-            'water_heater_target': data['water_heater_target'],
-            'water_heater_temp': data['water_heater_temp'],
+            'water_heater_target': self.extract_value(data.get('water_heater_target', None)),
+            'water_heater_temp': self.extract_value(data.get('water_heater_temp', None)),
             'water_heater_target_temp': self.extract_value(data.get('water_heater_target_temp', None)),
             'min_water_heater_target_temp': self.extract_value(data.get('min_water_heater_target_temp', None)),
             'max_water_heater_target_temp': self.extract_value(data.get('max_water_heater_target_temp', None)),
 
-            'mixer_target_temp': mixer.get('target_temp', None),
-            'mixer_current_temp': mixer.get('current_temp', None),
+            'mixer_target_temp': self.extract_value(mixer.get('target_temp', None)),
+            'mixer_current_temp': self.extract_value(mixer.get('current_temp', None)),
             'min_mixer_temp': self.extract_value(mixer.get('min_target_temp', None)),
             'max_mixer_temp': self.extract_value(mixer.get('max_target_temp', None)),
+
+            'timestamp': int(float(datetime.now().timestamp()))
 
         }
         self.__redis_connect.hset(
@@ -61,15 +67,37 @@ class StreamStoveData:
             mapping=data_map
         )
 
+    async def send_data_to_controller(self, connection,  command: dict[str, str]):
+        component_object = await connection.set(command.get("component"))
+        await component_object.set(command.get("parameter"), command.get("value"))
+
+    async def write_if_command(self, ecomax, mixer):
+        command = self.__redis_connect.rpop("stove_command")
+        if command:
+            logger.debug(f"Command {command}")
+
     async def stream(self):
+        logger.info("Start streaming data to redis")
         async with pyplumio.open_tcp_connection(self.__ip_stove_driver, self.__port_stove_driver) as conn:
+            counter = 0
+            logger.info("Infinitive loop for streaming data to redis")
             while True:
                 ecomax = await conn.get("ecomax")
+                logger.debug("Connected to ecomax")
                 await ecomax.wait_for("regdata")
+                logger.debug("Received regdata")
                 mixers = await ecomax.get("mixers")
+                logger.debug("Received mixers")
                 mixer: Mixer = mixers[0]
                 self.map_stove_data_to_hash_map(ecomax.data, mixer.data)
+                await self.write_if_command(ecomax, mixer)
+
                 await asyncio.sleep(1)
+                if counter > 15:
+                    counter = 0
+                    logger.debug("Streaming to redis is alive")
+                counter += 1
+
 
 if __name__ == '__main__':
     stream_ip = "192.168.1.236"

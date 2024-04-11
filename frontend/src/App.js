@@ -12,6 +12,7 @@ import Paper from "@mui/material/Paper";
 import HeatingTemperature from './features/temperature/HeatingTemperature';
 import MixerTemperature from "./features/temperature/MixerTemperature";
 import WaterHeaterTemperature from './features/temperature/WaterHeaterTemperature';
+import StoveState from "./features/stoveState/StoveState";
 
 
 function App() {
@@ -49,7 +50,9 @@ function App() {
               </Grid>
 
               <Grid item xs={12} md={8} lg={4}>
-                <Paper sx={{padding: 2, display: "flex", overflow: "auto", flexDirection: "column"}}>
+                <StoveState stoveState={"Null"}/>
+                <Paper sx={{padding: 2, display: "flex", overflow: "auto", flexDirection: "row"}}>
+
                   <img src={homePeriscopeLogo} className="App-logo-periscope" alt="logo"/>
                 </Paper>
               </Grid>

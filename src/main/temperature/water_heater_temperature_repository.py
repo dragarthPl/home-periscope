@@ -1,3 +1,4 @@
+import json
 from abc import abstractmethod, ABC
 
 import pyplumio
@@ -34,3 +35,12 @@ class WaterHeaterTemperatureRepository(IWaterHeaterTemperatureRepository):
             'current': int(float(stove_data.get("water_heater_temp"))),
             'timestamp': int(float(stove_data.get("timestamp"))),
         })
+
+    async def set_temperature(self, temperature: int):
+        command = {
+            "component": "ecomax",
+            "parameter": "water_heater_target_temp",
+            "value": temperature,
+        }
+        self.__redis.lpush("stove_command", json.dumps(command))
+        return temperature

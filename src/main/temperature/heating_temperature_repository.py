@@ -1,3 +1,4 @@
+import json
 from abc import ABC, abstractmethod
 
 import pyplumio
@@ -40,8 +41,10 @@ class HeatingTemperatureRepository(IHeatingTemperatureRepository):
         })
 
     async def set_temperature(self, temperature: int) -> bool:
-        async with pyplumio.open_tcp_connection(self.stream_ip, self.stream_port) as conn:
-            ecomax = await conn.get("ecomax")
-            result = bool(await ecomax.set("heating_target_temp", temperature))
-            return result
+        command = {
+            "component": "ecomax",
+            "parameter": "heating_target_temp",
+            "value": temperature,
+        }
+        self.__redis.lpush("stove_command", json.dumps(command))
         return False

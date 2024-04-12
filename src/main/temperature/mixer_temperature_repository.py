@@ -4,6 +4,7 @@ import pyplumio
 from injector import inject
 
 from pyplumio.devices.mixer import Mixer
+from redis import Redis
 
 from main.core.configuration import Configuration
 from main.temperature.temperature import Temperature
@@ -20,24 +21,23 @@ class MixerTemperatureRepository(IMixerTemperatureRepository):
     stream_port: int
     min_temperature: int
     max_temperature: int
+    __redis: Redis
 
     @inject
-    def __init__(self, configuration: Configuration):
+    def __init__(self, configuration: Configuration, redis: Redis):
+        self.__redis = redis
         self.stream_ip = configuration.stream_ip
         self.stream_port = configuration.stream_port
         self.min_temperature = configuration.default_minimum_temperature
         self.max_temperature = configuration.default_maximum_temperature
 
     async def get_temperature(self) -> Temperature:
-        async with pyplumio.open_tcp_connection(self.stream_ip, self.stream_port) as conn:
-            ecomax = await conn.get("ecomax")
-            mixers = await ecomax.get("mixers")
-            mixer: Mixer = mixers[0]
-            print(mixer.data)
-            mixer_target_temp = await mixer.get("target_temp")
-            return Temperature.from_dict({
-                'max_temperature': self.max_temperature,
-                'min_temperature': self.min_temperature,
-                'target_temperature': mixer_target_temp,
-                'current': int(mixer.current_temp),
-            })
+        stove_data = self.__redis.hgetall("stove_data")
+        return Temperature.from_dict({
+            'max_temperature': int(stove_data.get("max_mixer_temp")),
+            'min_temperature': int(stove_data.get("min_mixer_temp")),
+            'target_temperature': int(stove_data.get("mixer_target_temp")),
+            'current': int(float(stove_data.get("mixer_current_temp"))),
+            'timestamp': int(float(stove_data.get("timestamp"))),
+        })
+

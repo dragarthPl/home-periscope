@@ -1,19 +1,12 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { store } from './store'
 import { Provider } from 'react-redux'
-import {fetchHeatingTemperature, fetchMixerTemperature, fetchWaterHeaterTemperature} from "./features/temperature/temepratureSlice";
-import {fetchStoveState} from "./features/stoveState/stoveStateSlice";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-
-store.dispatch(fetchHeatingTemperature());
-store.dispatch(fetchMixerTemperature());
-store.dispatch(fetchWaterHeaterTemperature());
-store.dispatch(fetchStoveState());
 
 root.render(
   <React.StrictMode>

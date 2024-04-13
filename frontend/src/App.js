@@ -1,6 +1,6 @@
 import homePeriscopeLogo from './home-periscope.png';
 import './App.css';
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,9 +13,26 @@ import HeatingTemperature from './features/temperature/HeatingTemperature';
 import MixerTemperature from "./features/temperature/MixerTemperature";
 import WaterHeaterTemperature from './features/temperature/WaterHeaterTemperature';
 import StoveState from "./features/stoveState/StoveState";
+import {store} from "./store";
+import {
+  fetchHeatingTemperature,
+  fetchMixerTemperature,
+  fetchWaterHeaterTemperature
+} from "./features/temperature/temepratureSlice";
+import {fetchStoveState} from "./features/stoveState/stoveStateSlice";
 
 
 function App() {
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      store.dispatch(fetchHeatingTemperature());
+      store.dispatch(fetchMixerTemperature());
+      store.dispatch(fetchWaterHeaterTemperature());
+      store.dispatch(fetchStoveState());
+    }, 5000);
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
       <div className="App">

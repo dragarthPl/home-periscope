@@ -14,7 +14,7 @@ Zakładana jest rozudowa projektu o automatyzacje innych urządzeń w domu (np. 
   - [x] Odcztanie temperatury mieszcza
   - [x] Odczytanie temperatury wody w piecu
   - [x] Odczytanie temperatury C.W.U.
-  - [ ] Odczytanie trybu pracy pieca
+  - [x] Odczytanie trybu pracy pieca
   - [ ] Odczytanie stanu płomienia
   - [ ] Odczytanie harmonogramu zmiany temperatury
   - [ ] Odczytanie szybkości obrotów wentylatora
@@ -23,6 +23,9 @@ Zakładana jest rozudowa projektu o automatyzacje innych urządzeń w domu (np. 
   - [ ] Zmiana temperatury max temperatury C.W.U.
   - [ ] Zmiana temperatury max wody w piecu
   - [ ] Zmiana trybu pracy pieca
+- Odczyt danych z klimatyzacji
+  - [ ] Odczytanie temperatury w pomieszczeniu
+  - [ ] Odczytanie temperatury na zewnątrz
 - [ ] Wyświetlanie danych na na stronie internetowej
 - [ ] Automatyczne sterowanie piecem
 - [ ] Tryb "zaślepki"/demo - uruchomienie aplikacji bez komunikacji z piecem

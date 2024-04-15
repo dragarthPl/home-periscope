@@ -13,7 +13,7 @@ class StoveStateController:
     stove_state_repository: IStoveStateRepository = Injected(IStoveStateRepository)
 
     @stove_state_router.get("/api/stove_state")
-    async def stove_state(self):
+    async def stove_state(self) -> dict[str, str]:
         stove_state: StoveState = await self.stove_state_repository.get_state()
         return {
             "stove_state": str(stove_state)

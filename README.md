@@ -23,7 +23,7 @@ Zakładana jest rozudowa projektu o automatyzacje innych urządzeń w domu (np. 
   - [ ] Zmiana temperatury max temperatury C.W.U.
   - [ ] Zmiana temperatury max wody w piecu
   - [ ] Zmiana trybu pracy pieca
-- Odczyt danych z klimatyzacji
+- [ ] Odczyt danych z klimatyzacji
   - [ ] Odczytanie temperatury w pomieszczeniu
   - [ ] Odczytanie temperatury na zewnątrz
 - [ ] Wyświetlanie danych na na stronie internetowej

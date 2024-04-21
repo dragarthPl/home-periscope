@@ -1,9 +1,8 @@
+import json
 from abc import ABC, abstractmethod
 
-import pyplumio
 from injector import inject
 
-from pyplumio.devices.mixer import Mixer
 from redis import Redis
 
 from main.core.configuration import Configuration
@@ -13,6 +12,10 @@ from main.temperature.temperature import Temperature
 class IMixerTemperatureRepository(ABC):
     @abstractmethod
     async def get_temperature(self) -> Temperature:
+        pass
+
+    @abstractmethod
+    async def set_temperature(self, temperature: int) -> bool:
         pass
 
 
@@ -40,4 +43,16 @@ class MixerTemperatureRepository(IMixerTemperatureRepository):
             'current': int(float(stove_data.get("mixer_current_temp"))),
             'timestamp': int(float(stove_data.get("timestamp"))),
         })
+
+    async def set_temperature(self, temperature: int) -> bool:
+        command = {
+            "component": "ecomax",
+            "parameter": "mixer_target_temp",
+            "value": temperature,
+        }
+        try:
+            self.__redis.lpush("stove_command", json.dumps(command))
+        except Exception:
+            return False
+        return True
 

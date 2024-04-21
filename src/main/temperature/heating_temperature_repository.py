@@ -1,7 +1,6 @@
 import json
 from abc import ABC, abstractmethod
 
-import pyplumio
 from injector import inject
 from redis import Redis
 
@@ -46,5 +45,8 @@ class HeatingTemperatureRepository(IHeatingTemperatureRepository):
             "parameter": "heating_target_temp",
             "value": temperature,
         }
-        self.__redis.lpush("stove_command", json.dumps(command))
-        return False
+        try:
+            self.__redis.lpush("stove_command", json.dumps(command))
+        except Exception:
+            return False
+        return True

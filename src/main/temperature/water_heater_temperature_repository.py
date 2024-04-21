@@ -1,7 +1,6 @@
 import json
 from abc import abstractmethod, ABC
 
-import pyplumio
 from injector import inject
 from redis import Redis
 
@@ -12,6 +11,10 @@ from main.temperature.temperature import Temperature
 class IWaterHeaterTemperatureRepository(ABC):
     @abstractmethod
     async def get_temperature(self) -> Temperature:
+        pass
+
+    @abstractmethod
+    async def set_temperature(self, temperature: int):
         pass
 
 
@@ -36,11 +39,14 @@ class WaterHeaterTemperatureRepository(IWaterHeaterTemperatureRepository):
             'timestamp': int(float(stove_data.get("timestamp"))),
         })
 
-    async def set_temperature(self, temperature: int):
+    async def set_temperature(self, temperature: int) -> bool:
         command = {
             "component": "ecomax",
             "parameter": "water_heater_target_temp",
             "value": temperature,
         }
-        self.__redis.lpush("stove_command", json.dumps(command))
-        return temperature
+        try:
+            self.__redis.lpush("stove_command", json.dumps(command))
+        except Exception:
+            return False
+        return True

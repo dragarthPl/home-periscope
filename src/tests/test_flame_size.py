@@ -11,7 +11,7 @@ loop = asyncio.get_event_loop()
 
 
 class TestFlameSize(unittest.TestCase):
-    def test_flame_size(self):
+    def test_flame_size(self) -> None:
         response = client.get("/api/flame_size")
         self.assertEqual(response.status_code, 200)
         self.assertEqual({'flame_size': '30%'}, response.json())

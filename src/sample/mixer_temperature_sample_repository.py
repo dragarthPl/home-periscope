@@ -11,3 +11,6 @@ class MixerTemperatureSampleRepository(IMixerTemperatureRepository):
             "target_temperature": 40,
             'timestamp': 1234567892,
         })
+
+    async def set_temperature(self, temperature: Temperature) -> None:
+        return True

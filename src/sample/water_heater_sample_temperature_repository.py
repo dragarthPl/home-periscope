@@ -11,3 +11,6 @@ class WaterHeaterTemperatureSampleRepository(IWaterHeaterTemperatureRepository):
             'target_temperature': 50,
             'timestamp': 1234567893,
         })
+
+    async def set_temperature(self, temperature: Temperature) -> None:
+        return True

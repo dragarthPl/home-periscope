@@ -46,7 +46,7 @@ class HeatingTemperatureRepository(IHeatingTemperatureRepository):
             "value": temperature,
         }
         try:
-            self.__redis.lpush("stove_command", json.dumps(command))
+            self.__redis.publish("command-channel", json.dumps(command))
         except Exception:
             return False
         return True

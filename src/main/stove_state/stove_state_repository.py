@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 
-import pyplumio
 from injector import inject
 from redis import Redis
 

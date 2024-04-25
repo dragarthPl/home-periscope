@@ -14,7 +14,7 @@ class IWaterHeaterTemperatureRepository(ABC):
         pass
 
     @abstractmethod
-    async def set_temperature(self, temperature: int):
+    async def set_temperature(self, temperature: int) -> bool:
         pass
 
 
@@ -46,7 +46,7 @@ class WaterHeaterTemperatureRepository(IWaterHeaterTemperatureRepository):
             "value": temperature,
         }
         try:
-            self.__redis.lpush("stove_command", json.dumps(command))
+            self.__redis.publish("command-channel", json.dumps(command))
         except Exception:
             return False
         return True

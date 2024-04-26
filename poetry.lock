@@ -737,6 +737,16 @@ files = [
 ]
 
 [[package]]
+name = "phon"
+version = "0.1a3"
+description = "Unix filter for naive phonological analysis of words in wordlists."
+optional = false
+python-versions = "*"
+files = [
+    {file = "Phon-0.1a3.tar.gz", hash = "sha256:a8afb78abc19a523850662f1d60a7fbed3aef7f8781325e01f36d164c5a3ae96"},
+]
+
+[[package]]
 name = "platformdirs"
 version = "4.2.0"
 description = "A small Python package for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
@@ -1574,4 +1584,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.11"
-content-hash = "34092e30aeb4e240e326944f879dfbfdef20a8b85c7e299681db542c33e65970"
+content-hash = "1d3cc66b7f252008103c97a67917d136ff366adeab7442f54b715578863e500a"

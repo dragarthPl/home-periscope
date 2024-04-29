@@ -17,6 +17,7 @@ from main.core.sample_container import sample_container
 from main.dashboard.dashboard_controller import dashboard_router
 from main.stove_state.stove_state_controller import stove_state_router
 from main.temperature.temperature_controller import temperature_router
+from main.flame_size.flame_size_controller import flame_size_router
 from stove_connector.stream_stove_data import StreamStoveData
 
 configuration = Configuration()
@@ -32,9 +33,13 @@ class HomePeriscope:
         self.application.include_router(temperature_router)
         self.application.include_router(temperature_router)
         self.application.include_router(stove_state_router)
+        self.application.include_router(flame_size_router)
         self.application.state.injector = a_injector
         attach_injector(self.application, a_injector)
+        if not configuration.features.demo_mode:
+            self.setup_on_startup_job()
 
+    def setup_on_startup_job(self):
         stream_stove_data = StreamStoveData(
             ip_stove_driver=configuration.stream_ip,
             port_stove_driver=configuration.stream_port,
@@ -43,11 +48,12 @@ class HomePeriscope:
         )
 
         @self.application.on_event("startup")
-        def on_startup():
+        def on_startup() -> None:
             self.stream_stove_controller_data(stream_stove_data)
 
+
     @staticmethod
-    def stream_stove_controller_data(stream_stove_data: StreamStoveData):
+    def stream_stove_controller_data(stream_stove_data: StreamStoveData) -> None:
         logger.info("Starting up")
         asyncio.create_task(stream_stove_data.stream())
 

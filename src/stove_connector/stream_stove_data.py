@@ -7,6 +7,7 @@ import redis
 import asyncio
 import pyplumio
 from pyplumio.const import DeviceState
+from pyplumio.devices.ecomax import EcoMAX
 from pyplumio.devices.mixer import Mixer
 from pyplumio.structures.ecomax_parameters import EcomaxParameter
 
@@ -28,7 +29,7 @@ class StreamStoveData:
         self.__redis_connect = redis.Redis(host=redis_ip, port=redis_port, decode_responses=True)
 
     @staticmethod
-    def extract_value(parameter: EcomaxParameter | None):
+    def extract_value(parameter: EcomaxParameter | None) -> int | float:
         if isinstance(parameter, DeviceState):
             return parameter.value
         if isinstance(parameter, (float, int)):
@@ -70,11 +71,11 @@ class StreamStoveData:
             mapping=data_map
         )
 
-    async def send_data_to_controller(self, ecomax, command: dict[str, str]):
+    async def send_data_to_controller(self, ecomax: EcoMAX, command: dict[str, str]) -> None:
         await ecomax.set(command.get("parameter"), command.get("value"))
 
-    async def write_if_command(self, ecomax, mixer):
-        command_str = self.__redis_connect.rpop("stove_command")
+    async def write_if_command(self, ecomax: EcoMAX, mixer: Mixer, command_channel) -> None:
+        command_str = command_channel.get_message()
         command = json.loads(command_str) if command_str else None
         if command:
             component = command.get("component")
@@ -82,8 +83,10 @@ class StreamStoveData:
             if component == "ecomax":
                 await self.send_data_to_controller(ecomax, command)
 
-    async def stream(self):
+    async def stream(self) -> None:
         logger.info("Start streaming data to redis")
+        pubsub = self.__redis_connect.pubsub()
+        command_channel = pubsub.subscribe('command-channel')
         async with pyplumio.open_tcp_connection(self.__ip_stove_driver, self.__port_stove_driver) as conn:
             counter = 0
             logger.info("Infinitive loop for streaming data to redis")
@@ -96,7 +99,7 @@ class StreamStoveData:
                 logger.debug("Received mixers")
                 mixer: Mixer = mixers[0]
                 self.map_stove_data_to_hash_map(ecomax.data, mixer.data)
-                await self.write_if_command(ecomax, mixer)
+                await self.write_if_command(ecomax, mixer, command_channel)
 
                 await asyncio.sleep(1)
                 if counter > 15:

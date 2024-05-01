@@ -1,6 +1,6 @@
 stream_ip: 192.168.1.236
 stream_port: 9801
-redis_ip: localhost
+redis_ip: 192.168.1.17
 redis_port: 6379
 
 default_maximum_temperature: 80

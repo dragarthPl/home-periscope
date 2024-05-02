@@ -63,6 +63,8 @@ class StreamStoveData:
             'min_mixer_temp': self.extract_value(mixer.get('min_target_temp', None)),
             'max_mixer_temp': self.extract_value(mixer.get('max_target_temp', None)),
 
+            'summer_mode': self.extract_value(data.get('summer_mode', None)),
+
             'timestamp': int(float(datetime.now().timestamp()))
 
         }

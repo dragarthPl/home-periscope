@@ -4,8 +4,10 @@ from typing import Final
 class SummerMode:
     SUMMER: Final[str] = "Summer"
     WINTER: Final[str] = "Winter"
+    UNKNOWN: Final[str] = "Unknown"
 
     __mode: int
+
     def __init__(self, mode: int):
         self.__mode = mode
 

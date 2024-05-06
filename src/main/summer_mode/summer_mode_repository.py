@@ -9,7 +9,7 @@ from main.summer_mode.summer_mode import SummerMode
 
 class ISummerModeRepository(ABC):
     @abstractmethod
-    async def get_state(self) -> SummerMode:
+    async def get_summer_mode(self) -> SummerMode:
         pass
 
 
@@ -29,6 +29,6 @@ class SummerModeRepository(ISummerModeRepository):
         self.max_temperature = configuration.default_maximum_temperature
 
     # split-environments
-    async def get_state(self) -> SummerMode:
+    async def get_summer_mode(self) -> SummerMode:
         stove_data = self.__redis.hgetall("stove_data")
         return SummerMode(int(stove_data.get("summer_mode", 0)))

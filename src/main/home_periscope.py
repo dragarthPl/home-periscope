@@ -18,6 +18,7 @@ from main.dashboard.dashboard_controller import dashboard_router
 from main.stove_state.stove_state_controller import stove_state_router
 from main.temperature.temperature_controller import temperature_router
 from main.flame_size.flame_size_controller import flame_size_router
+from main.summer_mode.summer_mode_controller import summer_mode_router
 from stove_connector.stream_stove_data import StreamStoveData
 
 configuration = Configuration()
@@ -34,6 +35,7 @@ class HomePeriscope:
         self.application.include_router(temperature_router)
         self.application.include_router(stove_state_router)
         self.application.include_router(flame_size_router)
+        self.application.include_router(summer_mode_router)
         self.application.state.injector = a_injector
         attach_injector(self.application, a_injector)
         if not configuration.features.demo_mode:

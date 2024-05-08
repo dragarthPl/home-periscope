@@ -8,6 +8,7 @@ from main.temperature.mixer_temperature_repository import IMixerTemperatureRepos
 from main.temperature.water_heater_temperature_repository import IWaterHeaterTemperatureRepository, \
     WaterHeaterTemperatureRepository
 from main.flame_size.flame_size_repository import IFlameSizeRepository, FlameSizeRepository
+from main.summer_mode.summer_mode_repository import ISummerModeRepository, SummerModeRepository
 
 
 def container(binder: Binder) -> None:
@@ -17,6 +18,7 @@ def container(binder: Binder) -> None:
     binder.bind(IHeatingTemperatureRepository, to=HeatingTemperatureRepository)  # type: ignore[type-abstract]
     binder.bind(IStoveStateRepository, to=StoveStateRepository)  # type: ignore[type-abstract]
     binder.bind(IFlameSizeRepository, to=FlameSizeRepository)  # type: ignore[type-abstract]
+    binder.bind(ISummerModeRepository, to=SummerModeRepository)  # type: ignore[type-abstract]
     binder.bind(
         Redis,
         to=Redis(host=configuration.redis_ip, port=configuration.redis_port, decode_responses=True)

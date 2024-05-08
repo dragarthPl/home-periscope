@@ -1,7 +1,6 @@
 from fastapi import Request
 
 from attrs import asdict
-from fastapi.openapi.models import Response
 from fastapi_injector import Injected
 from fastapi_utils.cbv import cbv
 from fastapi_utils.inferring_router import InferringRouter

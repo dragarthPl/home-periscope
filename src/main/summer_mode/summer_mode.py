@@ -2,9 +2,9 @@ from typing import Final
 
 
 class SummerMode:
-    SUMMER: Final[str] = "Summer"
-    WINTER: Final[str] = "Winter"
-    UNKNOWN: Final[str] = "Unknown"
+    SUMMER: Final[str] = "Lato"
+    WINTER: Final[str] = "Zima"
+    UNKNOWN: Final[str] = "Nieznany"
 
     __mode: int
 

@@ -12,6 +12,10 @@ class ISummerModeRepository(ABC):
     async def get_summer_mode(self) -> SummerMode:
         pass
 
+    @abstractmethod
+    async def set_summer_mode(self, summer_mode: SummerMode) -> bool:
+        pass
+
 
 class SummerModeRepository(ISummerModeRepository):
     stream_ip: str
@@ -32,3 +36,15 @@ class SummerModeRepository(ISummerModeRepository):
     async def get_summer_mode(self) -> SummerMode:
         stove_data = self.__redis.hgetall("stove_data")
         return SummerMode(int(stove_data.get("summer_mode", 0)))
+
+    async def set_summer_mode(self, summer_mode: SummerMode) -> bool:
+        command = {
+            "component": "ecomax",
+            "parameter": "summer_mode",
+            "value": summer_mode.get_mode(),
+        }
+        try:
+            self.__redis.publish("command-channel", command)
+        except Exception:
+            return False
+        return True

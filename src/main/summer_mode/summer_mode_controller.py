@@ -20,3 +20,14 @@ class SummerModeController:
             return summer_mode.get_mode()
         else:
             return SummerMode.UNKNOWN
+
+    @summer_mode_router.post("/api/summer_mode")
+    async def set_summer_mode(self, summer_mode: str) -> str:
+        result: bool = await self.summer_mode_repository.set_summer_mode(
+            SummerMode.from_mode_string(summer_mode)
+        )
+        if result:
+            summer_mode: SummerMode = await self.summer_mode_repository.get_summer_mode()
+            return summer_mode.get_mode()
+        else:
+            return SummerMode.UNKNOWN

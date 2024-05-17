@@ -1,6 +1,9 @@
 import json
+import os
 from datetime import datetime
 from typing import Any
+
+import click
 from loguru import logger
 
 import redis
@@ -110,13 +113,30 @@ class StreamStoveData:
                 counter += 1
 
 
-if __name__ == '__main__':
-    stream_ip = "192.168.1.236"
-    stream_port = 9801
+@click.command()
+@click.option('--stream_ip', envvar="STREAM_IP", help="The IP address of the stove driver")
+@click.option('--stream_port', envvar="STREAM_PORT", help="The port of the stove driver")
+@click.option(
+    '--redis_ip',
+    envvar="REDIS_IP",
+    default="localhost",
+    help="The IP address of the redis server",
+)
+@click.option(
+    '--redis_port',
+    envvar="REDIS_PORT",
+    default=6379,
+    help="The port of the redis server",
+)
+def cli(stream_ip: str, stream_port: int, redis_ip: str, redis_port: int):
     stream_stove_data = StreamStoveData(
         ip_stove_driver=stream_ip,
         port_stove_driver=stream_port,
-        redis_ip="localhost",
-        redis_port=6379
+        redis_ip=redis_ip,
+        redis_port=redis_port
     )
     asyncio.run(stream_stove_data.stream())
+
+
+if __name__ == '__main__':
+    cli()

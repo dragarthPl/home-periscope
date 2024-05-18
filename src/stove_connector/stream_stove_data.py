@@ -82,9 +82,10 @@ class StreamStoveData:
     async def write_if_command(self, ecomax: EcoMAX, mixer: Mixer, pubsub) -> None:
         message = pubsub.get_message()
         command_str = message.get("data") if message else None
+        command = None
         if isinstance(command_str, (bytes, bytearray)):
             command_str = command_str.decode("utf-8")
-        command = json.loads(command_str) if command_str else None
+            command = json.loads(command_str) if command_str else None
         if command:
             component = command.get("component")
             logger.debug(f"Command {command}")

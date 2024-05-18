@@ -79,8 +79,8 @@ class StreamStoveData:
     async def send_data_to_controller(self, ecomax: EcoMAX, command: dict[str, str]) -> None:
         await ecomax.set(command.get("parameter"), command.get("value"))
 
-    async def write_if_command(self, ecomax: EcoMAX, mixer: Mixer, command_channel) -> None:
-        command_str = command_channel.get_message()
+    async def write_if_command(self, ecomax: EcoMAX, mixer: Mixer, pubsub) -> None:
+        command_str = pubsub.get_message()
         command = json.loads(command_str) if command_str else None
         if command:
             component = command.get("component")
@@ -91,7 +91,7 @@ class StreamStoveData:
     async def stream(self) -> None:
         logger.info("Start streaming data to redis")
         pubsub = self.__redis_connect.pubsub()
-        command_channel = pubsub.subscribe('command-channel')
+        pubsub.subscribe('command-channel')
         async with pyplumio.open_tcp_connection(self.__ip_stove_driver, self.__port_stove_driver) as conn:
             counter = 0
             logger.info("Infinitive loop for streaming data to redis")
@@ -104,7 +104,7 @@ class StreamStoveData:
                 logger.debug("Received mixers")
                 mixer: Mixer = mixers[0]
                 self.map_stove_data_to_hash_map(ecomax.data, mixer.data)
-                await self.write_if_command(ecomax, mixer, command_channel)
+                await self.write_if_command(ecomax, mixer, pubsub)
 
                 await asyncio.sleep(1)
                 if counter > 15:

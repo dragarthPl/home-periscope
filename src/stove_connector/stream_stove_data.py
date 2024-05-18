@@ -80,7 +80,10 @@ class StreamStoveData:
         await ecomax.set(command.get("parameter"), command.get("value"))
 
     async def write_if_command(self, ecomax: EcoMAX, mixer: Mixer, pubsub) -> None:
-        command_str = pubsub.get_message()
+        message = pubsub.get_message()
+        command_str = message.get("data") if message else None
+        if isinstance(command_str, (bytes, bytearray)):
+            command_str = command_str.decode("utf-8")
         command = json.loads(command_str) if command_str else None
         if command:
             component = command.get("component")

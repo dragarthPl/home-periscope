@@ -1,6 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {client} from "../../api/client";
-import {fetchHeatingTemperature} from "../temperature/temepratureSlice";
 
 const initialState = {
   stoveState: undefined,

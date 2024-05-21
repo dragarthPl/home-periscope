@@ -9,3 +9,4 @@ default_minimum_temperature: 15
 features:
   file_logging: false
   demo_mode: false
+  disable_stove_connector: true

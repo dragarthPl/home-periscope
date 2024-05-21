@@ -15,6 +15,7 @@ features_configuration = yaml_configuration.get('features', {})
 class Features:
     file_logging: bool = features_configuration.get('file_logging', False)
     demo_mode: bool = features_configuration.get('demo_mode', False)
+    disable_stove_connector: bool = features_configuration.get('disable_stove_connector', False)
 
 
 class Configuration(BaseSettings):

@@ -21,4 +21,4 @@ class FlameSizeRepository(IFlameSizeRepository):
 
     async def get_level(self) -> FlameSize:
         stove_data = self.__redis.hgetall("stove_data")
-        return FlameSize(int(stove_data["optical_temp"]))
+        return FlameSize(int(float(stove_data["optical_temp"])))

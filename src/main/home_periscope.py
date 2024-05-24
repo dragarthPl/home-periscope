@@ -38,7 +38,7 @@ class HomePeriscope:
         self.application.include_router(summer_mode_router)
         self.application.state.injector = a_injector
         attach_injector(self.application, a_injector)
-        if not configuration.features.demo_mode:
+        if not configuration.features.demo_mode and not configuration.features.disable_stove_connector:
             self.setup_on_startup_job()
 
     def setup_on_startup_job(self):

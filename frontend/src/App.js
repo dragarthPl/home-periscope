@@ -13,6 +13,7 @@ import HeatingTemperature from './features/temperature/HeatingTemperature';
 import MixerTemperature from "./features/temperature/MixerTemperature";
 import WaterHeaterTemperature from './features/temperature/WaterHeaterTemperature';
 import StoveState from "./features/stoveState/StoveState";
+import FlameSize from "./features/flameSize/FlameSize";
 import {store} from "./store";
 import {
   fetchHeatingTemperature,
@@ -20,6 +21,7 @@ import {
   fetchWaterHeaterTemperature
 } from "./features/temperature/temepratureSlice";
 import {fetchStoveState} from "./features/stoveState/stoveStateSlice";
+import {fetchFlameSize} from "./features/flameSize/flameSizeSlice";
 
 
 function App() {
@@ -29,6 +31,7 @@ function App() {
       store.dispatch(fetchMixerTemperature());
       store.dispatch(fetchWaterHeaterTemperature());
       store.dispatch(fetchStoveState());
+      store.dispatch(fetchFlameSize());
     }, 5000);
 
     return () => clearInterval(intervalId);
@@ -67,11 +70,14 @@ function App() {
               </Grid>
 
               <Grid item xs={12} md={8} lg={4}>
-                <StoveState stoveState={"Null"}/>
                 <Paper sx={{padding: 2, display: "flex", overflow: "auto", flexDirection: "row"}}>
-
                   <img src={homePeriscopeLogo} className="App-logo-periscope" alt="logo"/>
                 </Paper>
+                <Paper sx={{padding: 2, display: "flex", overflow: "auto", flexDirection: "row"}}>
+                  <StoveState stoveState={"Null"}/>
+                  <FlameSize flameSize={"Null"}/>
+                </Paper>
+
               </Grid>
 
             </Grid>

@@ -6,6 +6,8 @@
 
 The project was initiated because I had a significant problem with the accessibility of the internet module (ecoNET 300) for the VITECO furnace (EG PELLET MINI COMPACT 16 HYBRID) with the PELLAS HYBRID burner. The project is planned to be expanded to automate other household devices (e.g., blinds, lighting, etc.).
 
+![image](img/preview.png)
+
 ## Project Assumptions
 
 - [ ] Reading data from the furnace
@@ -13,7 +15,7 @@ The project was initiated because I had a significant problem with the accessibi
   - [x] Reading water temperature in the furnace
   - [x] Reading domestic hot water (DHW) temperature
   - [x] Reading the furnace operating mode
-  - [ ] Reading the flame status
+  - [x] Reading the flame status
   - [ ] Reading the temperature change schedule
   - [ ] Reading the fan speed
 - [ ] Modifying furnace settings

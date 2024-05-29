@@ -22,8 +22,12 @@ class SummerMode:
 
     def get_mode(self):
         if self.__mode == 1:
-            return self.SUMMER
+            return {
+                "summer_mode": self.SUMMER
+            }
         elif self.__mode == 0:
-            return self.WINTER
+            return {
+                "summer_mode": self.WINTER
+            }
         else:
             raise Exception("Unknown summer mode")

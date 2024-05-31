@@ -14,4 +14,4 @@ class TestSummaryMode(unittest.TestCase):
     def test_summary_mode(self) -> None:
         response = client.get("/api/summer_mode")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual('Lato', response.json())
+        self.assertEqual({'summer_mode': 'Lato'}, response.json())

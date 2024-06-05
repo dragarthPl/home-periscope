@@ -14,6 +14,7 @@ import MixerTemperature from "./features/temperature/MixerTemperature";
 import WaterHeaterTemperature from './features/temperature/WaterHeaterTemperature';
 import StoveState from "./features/stoveState/StoveState";
 import FlameSize from "./features/flameSize/FlameSize";
+import SummerMode from "./features/summerMode/SummerMode";
 import {store} from "./store";
 import {
   fetchHeatingTemperature,
@@ -22,6 +23,7 @@ import {
 } from "./features/temperature/temepratureSlice";
 import {fetchStoveState} from "./features/stoveState/stoveStateSlice";
 import {fetchFlameSize} from "./features/flameSize/flameSizeSlice";
+import {fetchSummerMode} from "./features/summerMode/summerModeSlice";
 
 
 function App() {
@@ -32,6 +34,7 @@ function App() {
       store.dispatch(fetchWaterHeaterTemperature());
       store.dispatch(fetchStoveState());
       store.dispatch(fetchFlameSize());
+      store.dispatch(fetchSummerMode());
     }, 5000);
 
     return () => clearInterval(intervalId);
@@ -76,6 +79,9 @@ function App() {
                 <Paper sx={{padding: 2, display: "flex", overflow: "auto", flexDirection: "row"}}>
                   <StoveState stoveState={"Null"}/>
                   <FlameSize flameSize={"Null"}/>
+                </Paper>
+                <Paper sx={{padding: 2, display: "flex", overflow: "auto", flexDirection: "row"}}>
+                  <SummerMode summerMode={"Null"}/>
                 </Paper>
 
               </Grid>

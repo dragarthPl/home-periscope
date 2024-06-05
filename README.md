@@ -6,7 +6,7 @@
 
 The project was initiated because I had a significant problem with the accessibility of the internet module (ecoNET 300) for the VITECO furnace (EG PELLET MINI COMPACT 16 HYBRID) with the PELLAS HYBRID burner. The project is planned to be expanded to automate other household devices (e.g., blinds, lighting, etc.).
 
-![image](img/preview.png)
+![image](img/preview_2.png)
 
 ## Project Assumptions
 
@@ -19,27 +19,27 @@ The project was initiated because I had a significant problem with the accessibi
   - [ ] Reading the temperature change schedule
   - [ ] Reading the fan speed
 - [ ] Modifying furnace settings
-  - [ ] Changing the room temperature
-  - [ ] Changing the maximum DHW temperature
-  - [ ] Changing the maximum water temperature in the furnace
+  - [x] Changing the room temperature
+  - [x] Changing the maximum DHW temperature
+  - [x] Changing the maximum water temperature in the furnace
   - [ ] Changing the furnace operating mode
 - [ ] Reading data from the air conditioning
   - [ ] Reading indoor temperature
   - [ ] Reading outdoor temperature
 - [ ] Displaying data on a website
 - [ ] Automatic furnace control
-- [ ] "Placeholder"/demo mode - running the application without communication with the furnace
-- [ ] Automatic application testing
+- [x] "Placeholder"/demo mode - running the application without communication with the furnace
+- [x] Automatic application testing
 
 ## Communication with the Furnace Controller
 
 We communicate with the furnace controller using the RS485 protocol. For this purpose, we use a USB to RS485 converter connected to a Raspberry Pi Zero. We assume two variants of communication with the application:
-- [ ] Communication with the application via USB, in which case the application code resides on the Raspberry Pi Zero.
-- [ ] Communication with the application via the network, in which case the application code resides on another server.
+- [x] Communication with the application via USB, in which case the application code resides on the Raspberry Pi Zero.
+- [x] Communication with the application via the network, in which case the application code resides on another server.
 
 Additionally, we assume a variant where the application runs with a "placeholder," meaning without communication with the furnace.
 
-- [ ] Placeholder variant
+- [x] Placeholder variant
 
 ## Materials/Inspiration:
 

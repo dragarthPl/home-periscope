@@ -18,7 +18,7 @@ fastapi-utils = "0.2.1"
 uvicorn = { version = "0.27.1", extras = ["standard"] }
 loguru = "0.7.2"
 pyyaml = "6.0.1"
-pyplumio = "0.5.15"
+pyplumio = "0.5.20"
 pytz = "2024.1"
 python-dateutil = "2.8.2"
 injector = "0.21.0"

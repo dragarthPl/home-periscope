@@ -51,4 +51,12 @@ const summerModeSlice = createSlice({
     }
 });
 
+export const {
+    updateSummerMode,
+} = summerModeSlice.actions
+
 export default summerModeSlice.reducer
+
+export const {
+  selectAll: selectSummerMode,
+} = summerModeAdapter.getSelectors((state) => state.summerMode)
